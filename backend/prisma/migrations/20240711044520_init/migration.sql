@@ -40,6 +40,7 @@ CREATE TABLE `Food` (
     `categoryId` INTEGER NOT NULL,
     `name` VARCHAR(191) NOT NULL,
     `description` VARCHAR(191) NOT NULL,
+    `image` VARCHAR(255) NOT NULL,
     `price` DOUBLE NOT NULL,
     `discount` DOUBLE NOT NULL,
     `processing_time` VARCHAR(191) NOT NULL,
@@ -118,15 +119,6 @@ CREATE TABLE `Vendor` (
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
--- CreateTable
-CREATE TABLE `FoodImage` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `foodId` INTEGER NOT NULL,
-    `url` VARCHAR(191) NOT NULL,
-
-    PRIMARY KEY (`id`)
-) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
 -- AddForeignKey
 ALTER TABLE `Food` ADD CONSTRAINT `Food_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
@@ -157,5 +149,3 @@ ALTER TABLE `OrderItem` ADD CONSTRAINT `OrderItem_foodId_fkey` FOREIGN KEY (`foo
 -- AddForeignKey
 ALTER TABLE `Vendor` ADD CONSTRAINT `Vendor_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
--- AddForeignKey
-ALTER TABLE `FoodImage` ADD CONSTRAINT `FoodImage_foodId_fkey` FOREIGN KEY (`foodId`) REFERENCES `Food`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

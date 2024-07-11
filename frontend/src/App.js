@@ -1,5 +1,5 @@
-import logo from '../assets/images/fastbuka.png';
-import '../styles/App.css';
+import logo from './assets/images/fastbuka.png';
+import './styles/App.css';
 
 function App() {
   return (
