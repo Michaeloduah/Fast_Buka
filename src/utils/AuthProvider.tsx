@@ -24,15 +24,21 @@ export const useAppContext = (): AppContextProps => {
 interface AuthProviderProps {
   children: ReactNode;
 }
-
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<PayloadProps | null>(null);
-  const [token, setToken] = useState<string | null>(() => localStorage?.getItem('token'));
+
+  // Only try to access localStorage on the client side
+  const [token, setToken] = useState<string | null>(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('token');
+    }
+    return null;
+  });
 
   useEffect(() => {
     if (token) {
       try {
-        const USER = jwtDecode<PayloadProps>(token); 
+        const USER = jwtDecode<PayloadProps>(token);
         setUser(USER);
       } catch (error) {
         console.error('Failed to decode token:', error);
@@ -43,9 +49,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   }, [token]);
 
-  console.log("User: ", user);  
+  console.log("User: ", user);
 
-  const value: AppContextProps = { user };  
+  const value: AppContextProps = { user };
 
   return (
     <AppContext.Provider value={value}>
