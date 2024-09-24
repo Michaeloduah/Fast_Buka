@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import Section from '../../../public/images/homepage/Section.png'
@@ -10,6 +10,7 @@ export default function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
+  const [token, setToken] = useState<string | null>(null);
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible)
@@ -33,7 +34,12 @@ export default function Login() {
 
       const data = await response.json()
 
-      localStorage.setItem('token', data.token)
+      useEffect(() => {
+        if (typeof window !== 'undefined') {
+          const storedToken = localStorage.getItem('token');
+          setToken(storedToken);
+        }
+      }, []);
 
       window.location.href = '/dashboard'
     } catch (err) {
